@@ -190,8 +190,8 @@ footer{background:var(--ink);color:rgba(255,255,255,0.55);padding:2.5rem 5%;}
       </div>
       <p class="hero-quote">10+ years leading market entry, banking partnerships, regulatory navigation and P&L across Uganda, Kenya, Tanzania, Rwanda, Nigeria, Ghana, Mozambique and Sierra Leone. I become your person on the ground — for as long as you need one.</p>
       <div class="hero-btns">
-        <button class="btn-p" onclick="scrollTo('contact')">Book an Intro Call</button>
-        <button class="btn-s" onclick="scrollTo('services')">See How I Can Help</button>
+        <button class="btn-p" data-scroll-to="contact">Book an Intro Call</button>
+        <button class="btn-s" data-scroll-to="services">See How I Can Help</button>
       </div>
       <div class="stat-row">
         <div class="stat-item"><div class="n">8</div><div class="l">African markets led simultaneously</div></div>
@@ -612,10 +612,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     if(el) el.scrollIntoView({behavior:'smooth'});
   });
 });
-function scrollTo(id){
-  const el=document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth'});
-}
+document.querySelectorAll('[data-scroll-to]').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.preventDefault();
+    const el=document.getElementById(btn.getAttribute('data-scroll-to'));
+    if(el) el.scrollIntoView({behavior:'smooth'});
+  });
+});
 function handleSubmit(e){
   const btn=document.getElementById('submitBtn');
   btn.textContent='Sending...';
