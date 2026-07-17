@@ -620,18 +620,32 @@ document.querySelectorAll('[data-scroll-to]').forEach(btn=>{
   });
 });
 function handleSubmit(e){
+  e.preventDefault();
+  const form = e.target;
   const btn=document.getElementById('submitBtn');
   btn.textContent='Sending...';
   btn.style.opacity='0.6';
-  setTimeout(()=>{
+
+  const formData = new FormData(form);
+  fetch('/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(formData).toString()
+  })
+  .then(() => {
     btn.textContent='Message Sent ✓';
     btn.style.background='#2D6A4F';
     btn.style.opacity='1';
+    form.reset();
     setTimeout(()=>{
       btn.textContent='Send Message';
       btn.style.background='var(--ink)';
     },3000);
-  },1000);
+  })
+  .catch(() => {
+    btn.textContent='Error — try again';
+    btn.style.background='#B33';
+  });
 }
 </script>
 </body>
