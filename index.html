@@ -621,18 +621,19 @@ document.querySelectorAll('[data-scroll-to]').forEach(btn=>{
 });
 function handleSubmit(e){
   e.preventDefault();
-  const form = e.target;
+  const form=e.target;
   const btn=document.getElementById('submitBtn');
   btn.textContent='Sending...';
   btn.style.opacity='0.6';
+  btn.disabled=true;
 
-  const formData = new FormData(form);
-  fetch('/', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: new URLSearchParams(formData).toString()
+  const data=new FormData(form);
+  fetch('/',{
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams(data).toString()
   })
-  .then(() => {
+  .then(()=>{
     btn.textContent='Message Sent ✓';
     btn.style.background='#2D6A4F';
     btn.style.opacity='1';
@@ -640,11 +641,14 @@ function handleSubmit(e){
     setTimeout(()=>{
       btn.textContent='Send Message';
       btn.style.background='var(--ink)';
+      btn.disabled=false;
     },3000);
   })
-  .catch(() => {
-    btn.textContent='Error — try again';
-    btn.style.background='#B33';
+  .catch(()=>{
+    btn.textContent='Something went wrong — try again';
+    btn.style.background='#B33A3A';
+    btn.style.opacity='1';
+    btn.disabled=false;
   });
 }
 </script>
